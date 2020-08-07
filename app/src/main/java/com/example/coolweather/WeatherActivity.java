@@ -3,6 +3,8 @@ package com.example.coolweather;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -44,6 +46,19 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /**
+         * 实现背景图和状态栏融合到一起的效果
+         *
+         * 由于这个功能是 Android 5.0 及以上的系统才支持的，因此我们先在代码中做了一个系统版 本号的判断，
+         * 只有当版本号大于或等于 21，也就是 5.0 及以上系统时才会执行后面的代码。
+         */
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            // 活动的布局会显示在状态栏上面
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            // 将状态栏设置成透明色
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         setContentView(R.layout.activity_weather);
         // 初始化各控件
         bingPicImg = (ImageView) findViewById(R.id.bing_pic_img);
